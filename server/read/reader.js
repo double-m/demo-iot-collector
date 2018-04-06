@@ -6,12 +6,12 @@ function sampleFilter(samples, type) {
 
 function sampleAverage(samples, type) {
     const filteredSamples = sampleFilter(samples, type)
-      , sum = filteredSamples.map(sample => {
-            return sample[type];
-        }).reduce((prev, curr) => {
-            return (prev + curr);
-        }, 0)
-      , num = filteredSamples.length;
+        , sum = filteredSamples.map(sample => {
+                return sample[type];
+            }).reduce((prev, curr) => {
+                return (prev + curr);
+            }, 0)
+        , num = filteredSamples.length;
 
     return sum / num;
 }

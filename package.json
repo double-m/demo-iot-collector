@@ -16,6 +16,7 @@
     "nodemon": "^1.17.3"
   },
   "devDependencies": {
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "supertest": "^3.0.0"
   }
 }
