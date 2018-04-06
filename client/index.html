@@ -30,10 +30,17 @@
 </body>
 
 <script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(() => {
-        $('#collected-samples').text(42);
-        $('#average-temperature').text(27);
+        var socket = io();
+        console.log('io');
+        socket.on('temperature', function (jsonData) {
+            console.log('sock');
+            const [ num, avg ] = JSON.parse(jsonData);
+            $('#collected-samples').text(num);
+            $('#average-temperature').text(avg);
+        });
     });
 </script>
 
