@@ -10,8 +10,9 @@
   "repository": "https://github.com/double-m/demo-iot-collector.git",
   "author": "Marcello Messori",
   "license": "GPL-3.0",
-  "private": false,
+  "private": true,
   "dependencies": {
+    "bower": "^1.8.4",
     "express": "^4.16.3",
     "nodemon": "^1.17.3"
   },

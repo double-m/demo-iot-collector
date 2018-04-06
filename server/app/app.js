@@ -1,4 +1,5 @@
-const app = require('express')()
+const express = require('express')
+    , app = express()
     , fs = require('fs')
     , path = require('path')
     , appRoot = path.resolve(`${__dirname}/../../`)
@@ -9,6 +10,10 @@ const app = require('express')()
 app.get('/', (req, res) => {
     res.sendFile(`${appRoot}/client/index.html`);
 });
+
+app.use('/public', express.static(`${appRoot}/client/public`));
+
+app.use('/vendor', express.static(`${appRoot}/bower_components`));
 
 fs.readFile(dataFilePath, (err, data) => {
     if (err) throw err;

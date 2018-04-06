@@ -24,9 +24,17 @@
 
 <body>
     <ul id="data">
-        <li>Temperature samples: <span class="data" id="collected-samples">42</span></li>
-        <li>Average temperature: <span class="data" id="average-temperature">27</span></li>
+        <li>Temperature samples: <span class="data" id="collected-samples"></span></li>
+        <li>Average temperature: <span class="data" id="average-temperature"></span></li>
     </ul>
 </body>
+
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(() => {
+        $('#collected-samples').text(42);
+        $('#average-temperature').text(27);
+    });
+</script>
 
 </html>
