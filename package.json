@@ -1,0 +1,16 @@
+{
+  "name": "demo-iot-collector",
+  "version": "0.1.0",
+  "description": "Example of a Node.js app receving samples via HTTP POST and showing aggregated data to the browser via socket.io",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node_modules/.bin/nodemon server/index.js"
+  },
+  "repository": "https://github.com/double-m/demo-iot-collector.git",
+  "author": "Marcello Messori",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "nodemon": "^1.17.3"
+  }
+}
