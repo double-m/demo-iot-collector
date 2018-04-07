@@ -13,4 +13,5 @@ yarn install
 bower install
 yarn run test
 yarn start # nodemon
+curl -XPOST http://localhost:3000/upload -H 'Content-Type: application/json' --data '{"pressure": 1000, "temperature": 25}'
 ```
