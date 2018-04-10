@@ -3,12 +3,11 @@ const express = require('express')
     , http = require('http').Server(app)
     , io = require('socket.io')(http)
     , bodyParser = require('body-parser')
-    , fs = require('fs')
     , path = require('path')
     , appRoot = path.resolve(`${__dirname}/../../`)
-    , sampleFilter = require(`${appRoot}/server/read/reader`).sampleFilter
-    , sampleAverage = require(`${appRoot}/server/read/reader`).sampleAverage
-    , dataFilePath = `${appRoot}/samples/data.json`;
+    , dataFilePath = `${appRoot}/samples/data.json`
+    , dataType = 'temperature'
+    , dataRepository = require(`${appRoot}/server/domain/data-repository`)({dataFilePath: dataFilePath, type: dataType});
 
 app.use(bodyParser.json());
 
@@ -22,48 +21,17 @@ app.get('/', (req, res) => {
 
 app.post('/upload', (req, res) => {
     if (typeof req.body === 'object') {
-        writeDataAndNotifyTheListeners(req.body);
+        dataRepository.write(req.body, notify);
     }
     res.send();
 });
 
 io.on('connection', (socket) => {
-    readDataAndNotifyTheListeners();
+    dataRepository.read(notify);
 });
 
-function writeDataAndNotifyTheListeners(newSample) {
-    fs.readFile(dataFilePath, (err, data) => {
-        const samples = !err ? JSON.parse(data.toString()) : [];
-
-        samples.push(newSample);
-
-        fs.writeFile(dataFilePath, JSON.stringify(samples), (err) => {
-            if (err) throw err;
-
-            readDataAndNotifyTheListeners();
-        })
-    });
-}
-
-function readDataAndNotifyTheListeners() {
-    fs.readFile(dataFilePath, (err, data) => {
-        if (err) {
-            data = '[]';
-            fs.writeFileSync(dataFilePath, data);
-        }
-
-        const samples = JSON.parse(data)
-            , [ numTemperatureSamples, avgTemperature ] = getReadingsForType(samples, 'temperature');
-
-        io.emit('temperature', JSON.stringify([ numTemperatureSamples,avgTemperature ]));
-    });
-}
-
-function getReadingsForType(samples, type) {
-    const num = sampleFilter(samples, type).length
-        , avg = sampleAverage(samples, type);
-
-    return [ num, avg ];
-}
+const notify = (data) => {
+    io.emit(dataType, JSON.stringify(data));
+};
 
 module.exports = http;
